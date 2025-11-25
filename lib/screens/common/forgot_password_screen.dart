@@ -66,7 +66,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           ),
         ),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(24, 0, 24, 24),
         child: Form(
           key: _formKey,
@@ -94,13 +94,23 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               // Email
               TextFormField(
                 controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   labelText: "Email",
                   labelStyle: textTheme.labelLarge,
                   suffixIcon: Icon(Icons.email_outlined, color: AppColors.hint),
                 ),
-                validator: (value) =>
-                    value!.isEmpty ? "Please enter email" : null,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter email";
+                  }
+                  if (!RegExp(
+                    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                  ).hasMatch(value)) {
+                    return "Please enter a valid email";
+                  }
+                  return null;
+                },
               ),
               SizedBox(height: 24),
 

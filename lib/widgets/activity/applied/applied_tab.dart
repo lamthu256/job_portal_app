@@ -77,7 +77,7 @@ class _AppliedTabState extends State<AppliedTab> {
                 context,
                 MaterialPageRoute(
                   builder: (_) => JobDetailScreen(
-                    jobId: job.id,
+                    jobId: job.jobId,
                     recruiterId: job.recruiterId!,
                   ),
                 ),

@@ -105,7 +105,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 decoration: InputDecoration(
                   labelText: "Full name/ Company name",
                   labelStyle: textTheme.labelLarge,
-                  suffixIcon: Icon(Icons.person_outline, color: AppColors.hint,),
+                  suffixIcon: Icon(Icons.person_outline, color: AppColors.hint),
                 ),
                 validator: (value) =>
                     value!.isEmpty ? "Please enter name" : null,
@@ -115,13 +115,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
               // Email
               TextFormField(
                 controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   labelText: "Email",
                   labelStyle: textTheme.labelLarge,
                   suffixIcon: Icon(Icons.email_outlined, color: AppColors.hint),
                 ),
-                validator: (value) =>
-                    value!.isEmpty ? "Please enter email" : null,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter email";
+                  }
+                  // Simple email validation
+                  if (!RegExp(
+                    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                  ).hasMatch(value)) {
+                    return "Please enter a valid email";
+                  }
+                  return null;
+                },
               ),
               SizedBox(height: 32),
 

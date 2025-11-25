@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:job_portal_app/screens/common/forgot_password_screen.dart';
+import 'package:job_portal_app/screens/common/home_wrapper.dart';
 import 'package:job_portal_app/screens/common/login_screen.dart';
 import 'package:job_portal_app/screens/common/register_screen.dart';
 import 'package:job_portal_app/screens/recruiter/company_profile_screen.dart';
 import 'package:job_portal_app/screens/recruiter/notification_screen.dart';
+import 'package:job_portal_app/services/user_session.dart';
 import 'theme/app_theme.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await UserSession.load();
   runApp(const JobPortalApp());
 }
 
@@ -15,25 +19,20 @@ class JobPortalApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Check if user is logged in
+    final isLoggedIn = UserSession.userId != null && UserSession.role != null;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      initialRoute: '/login',
+      initialRoute: isLoggedIn ? '/home' : '/login',
       routes: {
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
         '/forgot_password': (context) => const ForgotPasswordScreen(),
+        '/home': (context) => const HomeWrapper(),
         '/company_profile': (context) => const CompanyProfileScreen(),
         '/notification': (context) => const NotificationScreen(),
-        // '/candidate': (context) => const CandidateScreen(),
-        // '/recruiter': (context) => const RecruiterScreen(),
-        // '/apply_form': (context) => const ApplyFormScreen(),
-        // '/profile': (context) => const ProfileScreen(),
-        // '/edit_profile': (context) => const EditProfileScreen(),
-        // '/setting': (context) => const SettingsScreen(),
-        // '/job_detail': (context) => const JobDetailScreen(),
-        // '/posted_job_detail': (context) => const PostedJobDetailScreen(),
-        // '/candidate_detail': (context) => const CandidateDetailScreen(),
       },
     );
   }

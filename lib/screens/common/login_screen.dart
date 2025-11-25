@@ -49,11 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
       final userId = int.parse(result['user']['id'].toString());
       final role = result['user']['role'];
       final email = result['user']['email'];
-      await UserSession.save(
-        userId: userId,
-        role: role,
-        email: email,
-      );
+      await UserSession.save(userId: userId, role: role, email: email);
 
       if (!mounted) return;
 
@@ -109,6 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Email
                   TextFormField(
                     controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       labelText: "Email",
                       labelStyle: textTheme.labelLarge,
@@ -117,8 +114,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: AppColors.hint,
                       ),
                     ),
-                    validator: (value) =>
-                        value!.isEmpty ? "Please enter email" : null,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please enter email";
+                      }
+                      if (!RegExp(
+                        r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                      ).hasMatch(value)) {
+                        return "Please enter a valid email";
+                      }
+                      return null;
+                    },
                   ),
                   SizedBox(height: 32),
 

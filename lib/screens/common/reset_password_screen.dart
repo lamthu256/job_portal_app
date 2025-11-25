@@ -82,7 +82,7 @@ class _RegisterScreenState extends State<ResetPasswordScreen> {
           ),
         ),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(24, 0, 24, 24),
         child: Form(
           key: _formKey,
