@@ -156,10 +156,9 @@ class _ApplicationDetailScreenState extends State<ApplicationDetailScreen> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
+        body: Column(
+          children: [
+            Container(
                 padding: EdgeInsets.fromLTRB(24, 0, 24, 24),
                 child: Column(
                   children: [
@@ -170,10 +169,7 @@ class _ApplicationDetailScreenState extends State<ApplicationDetailScreen> {
                       radius: 40,
                     ),
                     SizedBox(height: 10),
-                    Text(
-                      application!.fullName!,
-                      style: textTheme.headlineLarge,
-                    ),
+                    Text(application!.fullName!, style: textTheme.headlineLarge),
                     SizedBox(height: 4),
                     Text(
                       "Applied for ${application!.title}",
@@ -208,7 +204,7 @@ class _ApplicationDetailScreenState extends State<ApplicationDetailScreen> {
                                     : AppColors.success,
                                 borderRadius: BorderRadius.circular(8),
                               ),
-
+              
                               child: Text(
                                 application!.status != 'Interviewing'
                                     ? 'Interview'
@@ -240,88 +236,93 @@ class _ApplicationDetailScreenState extends State<ApplicationDetailScreen> {
                       ),
                   ],
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(24, 24, 24, 0),
+            ),
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.fromLTRB(24, 24, 24, 24),
                 decoration: BoxDecoration(
                   color: AppColors.surface,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(24),
+                  ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Introduce
-                    Text("Resume", style: textTheme.headlineMedium),
-                    SizedBox(height: 8),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: AppColors.background,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.black12),
-                      ),
-                      child: GestureDetector(
-                        onTap: () {
-                          UserService().downloadAndOpenFile(
-                            application!.resumeUrl!,
-                            getFormattedResumeFileName(application!),
-                          );
-                        },
-                        child: Row(
-                          children: [
-                            Icon(Icons.picture_as_pdf, size: 32),
-                            SizedBox(width: 12),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  getFormattedResumeFileName(application!),
-                                  style: textTheme.headlineSmall,
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  formatter.format(
-                                    DateTime.parse(application!.appliedAt!),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Introduce
+                      Text("Resume", style: textTheme.headlineMedium),
+                      SizedBox(height: 8),
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: AppColors.background,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.black12),
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            UserService().downloadAndOpenFile(
+                              application!.resumeUrl!,
+                              getFormattedResumeFileName(application!),
+                            );
+                          },
+                          child: Row(
+                            children: [
+                              Icon(Icons.picture_as_pdf, size: 32),
+                              SizedBox(width: 12),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    getFormattedResumeFileName(application!),
+                                    style: textTheme.headlineSmall,
                                   ),
-                                ),
-                              ],
-                            ),
-                            Spacer(),
-                            Icon(Icons.download),
-                          ],
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    formatter.format(
+                                      DateTime.parse(application!.appliedAt!),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Spacer(),
+                              Icon(Icons.download),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 24),
+                      SizedBox(height: 24),
 
-                    // Introduce
-                    Text(
-                      "Letter of recommendation",
-                      style: textTheme.headlineMedium,
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      application!.introduction!,
-                      style: textTheme.bodyMedium,
-                    ),
-                    SizedBox(height: 24),
-                    Text("Progress", style: textTheme.headlineMedium),
-                    SizedBox(height: 8),
-                    Column(
-                      children: List.generate(progressSteps.length, (index) {
-                        final step = progressSteps[index];
-                        final isLast = index == progressSteps.length - 1;
-                        return ProgressStepWidget(
-                          step: step,
-                          showLine: !isLast,
-                        );
-                      }),
-                    ),
-                  ],
+                      // Introduce
+                      Text(
+                        "Letter of recommendation",
+                        style: textTheme.headlineMedium,
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        application!.introduction!,
+                        style: textTheme.bodyMedium,
+                      ),
+                      SizedBox(height: 24),
+                      Text("Progress", style: textTheme.headlineMedium),
+                      SizedBox(height: 8),
+                      Column(
+                        children: List.generate(progressSteps.length, (index) {
+                          final step = progressSteps[index];
+                          final isLast = index == progressSteps.length - 1;
+                          return ProgressStepWidget(
+                            step: step,
+                            showLine: !isLast,
+                          );
+                        }),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

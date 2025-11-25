@@ -25,36 +25,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   void initState() {
     super.initState();
-    _fetchNotifications();
-  }
-
-  void _fetchNotifications() async {
-    final userId = UserSession.userId;
-    if (userId == null) {
-      setState(() => isLoading = false);
-      return;
-    }
-
-    if (widget.initialNotifications != null &&
-        widget.initialNotifications!.isNotEmpty) {
-      setState(() {
-        notifications = widget.initialNotifications!;
-        isLoading = false;
-      });
-    } else {
-      final result = await NotificationService().getNotificationList(userId);
-
-      if (mounted) {
-        setState(() {
-          if (result['success']) {
-            notifications = List<Map<String, dynamic>>.from(
-              result['notifications'] ?? [],
-            );
-          }
-          isLoading = false;
-        });
-      }
-    }
+    notifications = widget.initialNotifications ?? [];
+    isLoading = false;
   }
 
   void _markAllAsRead() async {
@@ -63,8 +35,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
     await NotificationService().markAllAsRead(userId);
 
-    if (mounted) {
-      _fetchNotifications();
+    if (mounted && widget.onNotificationsUpdated != null) {
+      widget.onNotificationsUpdated!();
+      setState(() {
+        for (var notif in notifications) {
+          notif['is_read'] = 1;
+        }
+      });
     }
   }
 
@@ -141,7 +118,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
             Expanded(
               child: RefreshIndicator(
                 onRefresh: () async {
-                  _fetchNotifications();
+                  if (widget.onNotificationsUpdated != null) {
+                    widget.onNotificationsUpdated!();
+                  }
                   await Future.delayed(Duration(seconds: 1));
                 },
                 child: ListView(

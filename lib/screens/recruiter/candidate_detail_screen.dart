@@ -97,57 +97,51 @@ class _CandidateDetailScreenState extends State<CandidateDetailScreen> {
         ),
         body: Column(
           children: [
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.fromLTRB(24, 6, 24, 24),
-                    child: Column(
+              Container(
+                padding: EdgeInsets.fromLTRB(24, 6, 24, 24),
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: candidate.avatarUrl != ""
+                          ? NetworkImage(candidate.avatarUrl!)
+                          : AssetImage("assets/default_avatar.png"),
+                      radius: 40,
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      candidate.fullName,
+                      style: textTheme.headlineLarge,
+                    ),
+                    SizedBox(height: 4),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CircleAvatar(
-                          backgroundImage: candidate.avatarUrl != ""
-                              ? NetworkImage(candidate.avatarUrl!)
-                              : AssetImage("assets/default_avatar.png"),
-                          radius: 40,
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          candidate.fullName,
-                          style: textTheme.headlineLarge,
-                        ),
-                        SizedBox(height: 4),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            if (candidate.jobTitle != "")
-                              Text(
-                                "${candidate.jobTitle} • ",
-                                style: textTheme.bodyMedium!.copyWith(
-                                  color: AppColors.hint,
-                                ),
-                              ),
-                            Icon(
-                              Icons.location_on,
-                              size: 13,
+                        if (candidate.jobTitle != "")
+                          Text(
+                            "${candidate.jobTitle} • ",
+                            style: textTheme.bodyMedium!.copyWith(
                               color: AppColors.hint,
                             ),
-                            SizedBox(width: 2),
-                            Text(
-                              candidate.location != ''
-                                  ? candidate.location!
-                                  : "Unknown",
-                              style: textTheme.bodyMedium!.copyWith(
-                                color: AppColors.hint,
-                              ),
-                            ),
-                          ],
+                          ),
+                        Icon(
+                          Icons.location_on,
+                          size: 13,
+                          color: AppColors.hint,
+                        ),
+                        SizedBox(width: 2),
+                        Text(
+                          candidate.location != ''
+                              ? candidate.location!
+                              : "Unknown",
+                          style: textTheme.bodyMedium!.copyWith(
+                            color: AppColors.hint,
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
             Expanded(
               child: Container(
                 width: double.infinity,

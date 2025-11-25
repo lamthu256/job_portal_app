@@ -36,15 +36,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
           // Avatar + Name
           Row(
             children: [
-              ClipOval(
-                child: Image(
-                  image: widget.avatarUrl != ""
-                      ? NetworkImage(widget.avatarUrl!)
-                      : const AssetImage("assets/default_avatar.png")
-                            as ImageProvider,
-                  width: 56,
-                  height: 56,
-                  fit: BoxFit.cover,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => UserSession.role == 'candidate'
+                          ? ProfileScreen(
+                              onProfileUpdated: widget.onProfileUpdated,
+                            )
+                          : CompanyProfileScreen(
+                              onProfileUpdated: widget.onProfileUpdated,
+                            ),
+                    ),
+                  );
+                },
+                child: ClipOval(
+                  child: Image(
+                    image: widget.avatarUrl != ""
+                        ? NetworkImage(widget.avatarUrl!)
+                        : const AssetImage("assets/default_avatar.png")
+                              as ImageProvider,
+                    width: 56,
+                    height: 56,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               SizedBox(width: 10),
