@@ -8,10 +8,10 @@ class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key, required this.userId});
 
   @override
-  State<ResetPasswordScreen> createState() => _RegisterScreenState();
+  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
 
-class _RegisterScreenState extends State<ResetPasswordScreen> {
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final _passwordController = TextEditingController();
@@ -25,7 +25,7 @@ class _RegisterScreenState extends State<ResetPasswordScreen> {
     super.dispose();
   }
 
-  void handleRegister() async {
+  void handleResetPassword() async {
     if (!_formKey.currentState!.validate()) return;
 
     if (_passwordController.text != _confirmPasswordController.text) {
@@ -142,7 +142,7 @@ class _RegisterScreenState extends State<ResetPasswordScreen> {
                 width: double.infinity,
                 height: 52,
                 child: ElevatedButton(
-                  onPressed: handleRegister,
+                  onPressed: handleResetPassword,
                   child: Text("Reset Password"),
                 ),
               ),
@@ -151,7 +151,7 @@ class _RegisterScreenState extends State<ResetPasswordScreen> {
               // Back
               GestureDetector(
                 onTap: () {
-                  Navigator.pop(context, '/forgot_password');
+                  Navigator.pushReplacementNamed(context, '/forgot_password');
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
