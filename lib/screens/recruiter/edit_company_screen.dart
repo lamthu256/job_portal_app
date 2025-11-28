@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:job_portal_app/config/provinces.dart';
 import 'package:job_portal_app/models/recruiter.dart';
 import 'package:job_portal_app/services/recruiter_service.dart';
 import 'package:job_portal_app/services/user_service.dart';
 import 'package:job_portal_app/services/user_session.dart';
 import 'package:job_portal_app/theme/app_theme.dart';
+import 'package:job_portal_app/utils/image_picker_helper.dart';
 import 'package:job_portal_app/widgets/common/dropdown_field.dart';
 import 'package:job_portal_app/widgets/common/edit_profile_field.dart';
 
@@ -55,12 +55,10 @@ class _EditCompanyScreenState extends State<EditCompanyScreen> {
   }
 
   Future<void> pickImage() async {
-    final pickedFile = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-    );
-    if (pickedFile != null) {
+    final image = await ImagePickerHelper.pickImageWithOptions(context);
+    if (image != null) {
       setState(() {
-        _selectedImage = File(pickedFile.path);
+        _selectedImage = image;
       });
     }
   }

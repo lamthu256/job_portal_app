@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:job_portal_app/models/candidate.dart';
 import 'package:job_portal_app/models/skill.dart';
 import 'package:job_portal_app/services/candidate_service.dart';
@@ -8,6 +7,7 @@ import 'package:job_portal_app/services/skill_service.dart';
 import 'package:job_portal_app/services/user_service.dart';
 import 'package:job_portal_app/services/user_session.dart';
 import 'package:job_portal_app/theme/app_theme.dart';
+import 'package:job_portal_app/utils/image_picker_helper.dart';
 import 'package:job_portal_app/widgets/common/edit_profile_field.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -57,12 +57,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Future<void> pickImage() async {
-    final pickedFile = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-    );
-    if (pickedFile != null) {
+    final image = await ImagePickerHelper.pickImageWithOptions(context);
+    if (image != null) {
       setState(() {
-        _selectedImage = File(pickedFile.path);
+        _selectedImage = image;
       });
     }
   }
